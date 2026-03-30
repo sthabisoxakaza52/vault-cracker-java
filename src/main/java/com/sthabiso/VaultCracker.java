@@ -31,7 +31,7 @@ static void chooseMode() {
 
     int choice = scanner.nextInt();
 
-    int min = 1 ;
+    int min = 1;
     int max;
     int maxAttempts;
     int baseScore;
@@ -42,27 +42,50 @@ static void chooseMode() {
         baseScore = 100;
         System.out.println("\n**ROOKIE** Initialising breach sequence...\n");
 
-    }else if (choice == 2) {
+    } else if (choice == 2) {
         max = 100;
         maxAttempts = 7;
         baseScore = 200;
         System.out.println("\n**OPERATIVE** Encryption detected .Proceeding with caution...\n");
 
-    }else if (choice == 3) {
+    } else if (choice == 3) {
         max = 200;
         maxAttempts = 5;
         baseScore = 300;
         System.out.println("\n**GHOST** Maximum security vault .One wrong move and it's over.\n");
-    }else{
+
+    } else {
         System.out.println("Invalid selected. Defaulting to ROOKIE.");
         max = 50;
         maxAttempts = 10;
         baseScore = 100;
-
     }
+
+
+    int secretCode = generateCode(min, max);
+    playGame(secretCode, min, max, maxAttempts, baseScore);
 }
 
-}
+    static int generateCode(int min, int max) {
+        return random.nextInt(max - min + 1) + min;
+    }
+
+    static String evaluateGuess(int secret, int guess) {
+        if (guess < secret) {
+            return "low";
+        } else if (guess > secret) {
+            return "high";
+        } else {
+            return "correct";
+        }
+    }
+
+
+
+
+
+
+
 
 
 
