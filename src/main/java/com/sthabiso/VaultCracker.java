@@ -80,6 +80,63 @@ static void chooseMode() {
         }
     }
 
+    static int calculateScore(int baseScore, int attempts) {
+        int score = baseScore - (attempts * 10);
+        if (score < 0) {
+            return 0;
+        }
+        return score;
+    }
+
+    static void playGame(int secretCode, int min, int max, int maxAttempts, int baseScore) {
+        int attempts = 0;
+
+        System.out.println("The vault code is a number between " + min + " and " + max + ".");
+        System.out.println("You have " + maxAttempts + " attempts. Choose wisely.\n");
+
+        while (attempts < maxAttempts) {
+            System.out.print("Enter code: ");
+            int guess = scanner.nextInt();
+            attempts++;
+
+            String result = evaluateGuess(secretCode, guess);
+
+            if (result.equals("correct")) {
+                int score = calculateScore(baseScore, attempts);
+                System.out.println("\n>> ACCESS GRANTED. Vault opened.");
+                System.out.println(">> Attempts used: " + attempts);
+                System.out.println(">> Your score:    " + score);
+                playAgain();
+                return;
+            } else if (result.equals("high")) {
+                System.out.println(">> Signal too strong. Dial it back.");
+            } else {
+                System.out.println(">> Signal too weak. Push higher.");
+            }
+
+            int remaining = maxAttempts - attempts;
+            System.out.println(">> Attempts remaining: " + remaining + "\n");
+        }
+
+        System.out.println("\n>> VAULT LOCKED. Security triggered.");
+        System.out.println(">> The code was: " + secretCode);
+        System.out.println(">> Your score:   0");
+        playAgain();
+    }
+
+    static void playAgain() {
+        System.out.print("\nAttempt another breach? (yes/no): ");
+        String answer = scanner.next();
+
+        if (answer.equalsIgnoreCase("yes")) {
+            chooseMode();
+        } else {
+            System.out.println("\n>> Disconnecting...");
+            System.out.println(">> Session terminated. Leave no trace.");
+        }
+    }
+}
+
 
 
 
